@@ -54,7 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTitle, tvOverview;
+        TextView tvTitle, tvOverview, popmovie;
         ImageView ivPoster;
 
 
@@ -63,6 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
             ivPoster = itemView.findViewById(R.id.ivPoster);
+            popmovie = itemView.findViewById(R.id.popmovie);
         }
 
         public void bind(Movie movie) {
@@ -74,6 +75,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             }
             else Imageurl = movie.getPosterPath();
             Glide.with(context).load(Imageurl).into(ivPoster);
+            String res = "Popular Movie!";
+            int rating = movie.getVoteavg();
+            if(rating >= 7){
+                popmovie.setText(res);
+            }
+            else{
+                popmovie.setVisibility(View.INVISIBLE);
+            }
         }
     }
 }
