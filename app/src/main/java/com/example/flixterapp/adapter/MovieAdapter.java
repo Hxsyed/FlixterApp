@@ -1,20 +1,24 @@
 package com.example.flixterapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.flixterapp.DetailActivity;
 import com.example.flixterapp.R;
 import com.example.flixterapp.models.Movie;
 
+import org.parceler.Parcels;
 import org.w3c.dom.Text;
 
 import java.util.List;
@@ -56,6 +60,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         TextView tvTitle, tvOverview, popmovie;
         ImageView ivPoster;
+        RelativeLayout container;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -64,25 +69,38 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             tvOverview = itemView.findViewById(R.id.tvOverview);
             ivPoster = itemView.findViewById(R.id.ivPoster);
             popmovie = itemView.findViewById(R.id.popmovie);
+            container = itemView.findViewById(R.id.container);
         }
 
         public void bind(Movie movie) {
+            String res = "Popular Movie!";
+            double rating = movie.getVoteavg();
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
             String Imageurl;
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 Imageurl = movie.getBackdroppath();
             }
-            else Imageurl = movie.getPosterPath();
+            else{
+                Imageurl = movie.getPosterPath();
+            }
             Glide.with(context).load(Imageurl).into(ivPoster);
-            String res = "Popular Movie!";
-            int rating = movie.getVoteavg();
             if(rating >= 7){
                 popmovie.setText(res);
+
             }
             else{
                 popmovie.setVisibility(View.INVISIBLE);
+
             }
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    context.startActivity(i);
+                }
+            });
         }
     }
 }
