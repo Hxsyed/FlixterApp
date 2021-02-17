@@ -22,6 +22,10 @@ Flix is an app that allows users to browse movies from the [The Movie Database A
 - [ ] Apply data binding for views to help remove boilerplate code. (1 point)
 - [ ] Add a rounded corners for the images using the Glide transformations. (1 point)
 
+### App Walkthough GIF
+
+![demopart2](https://user-images.githubusercontent.com/63178444/108241310-af0e4080-7119-11eb-899e-6081ac66bf83.gif)
+
 
 ## Flix Part 1
 
