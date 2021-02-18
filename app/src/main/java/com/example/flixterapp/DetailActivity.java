@@ -43,6 +43,7 @@ public class DetailActivity extends YouTubeBaseActivity {
         dtitle.setText(movie.getTitle());
         doverview.setText(movie.getOverview());
         ratingBar.setRating((float) movie.getVoteavg());
+        double rating = movie.getVoteavg();
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(String.format(videourl, movie.getMovieid()), new JsonHttpResponseHandler() {
@@ -55,7 +56,7 @@ public class DetailActivity extends YouTubeBaseActivity {
                     }
                     String youtubekey = results.getJSONObject(0).getString("key");
                     Log.d("DetailActivity", youtubekey);
-                    initializeyoutube(youtubekey);
+                    initializeyoutube(youtubekey, rating);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -66,13 +67,18 @@ public class DetailActivity extends YouTubeBaseActivity {
 
             }
         });
+
     }
 
-    private void initializeyoutube(String youtubekey) {
+    private void initializeyoutube(String youtubekey, double rating) {
         youTubePlayerView.initialize(YOTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 youTubePlayer.cueVideo(youtubekey);
+                if((rating / 2) > 3.5){
+                    youTubePlayer.loadVideo(youtubekey);
+                    youTubePlayer.setFullscreen(true);
+                }
             }
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
